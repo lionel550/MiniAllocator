@@ -30,6 +30,3 @@ To run the included demo:
 ./allocator_demo
 
 ```
-
-## Bug
-- Run demo to see the bug

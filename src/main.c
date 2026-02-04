@@ -13,7 +13,6 @@ int main(void) {
         printf("Allocated 128 bytes at %p\n", ptr);
     }
 
-    // 4. Free it
     my_free(&heap, ptr);
     printf("Memory freed. Free memory: %zu bytes\n", heap.head->chunk_size);
 

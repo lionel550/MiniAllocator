@@ -53,7 +53,7 @@ void *my_alloc(HeapMetadata *heap_metadata, size_t size, size_t alignment) {
     header_ptr->chunk_size = required_space;
     header_ptr->padding = alignment_padding;
 
-    heap_metadata->used = required_space;
+    heap_metadata->used += required_space;
 
     return (void *)((char *)header_ptr + sizeof(ChunkHeader));
 }
@@ -75,14 +75,18 @@ void my_free(HeapMetadata *heap_metadata, void *ptr) {
     FreeChunk *free_chunk;
     FreeChunk *current_chunk;
     FreeChunk *prev_chunk = NULL;
+    size_t chunk_size, alignment_padding;
     
     if (ptr == NULL) {
         return;
     }
 
     header = (ChunkHeader *)((char *)ptr - sizeof(ChunkHeader));
-    free_chunk = (FreeChunk *)header;
-    free_chunk->chunk_size = header->chunk_size + header->padding;
+    chunk_size = header->chunk_size;
+    alignment_padding = header->padding;
+
+    free_chunk = (FreeChunk *)((char *)header - alignment_padding);
+    free_chunk->chunk_size = chunk_size;
     free_chunk->next = NULL;
 
     current_chunk = heap_metadata->head;

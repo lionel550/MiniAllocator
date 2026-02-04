@@ -34,9 +34,8 @@ void insert_chunk(FreeChunk **phead, FreeChunk *prev_chunk, FreeChunk *new_chunk
     if (prev_chunk == NULL) {
         if (*phead != NULL) {
             new_chunk->next = *phead;
-        } else {
-            *phead = new_chunk;
         }
+        *phead = new_chunk;
     } else {
         if (prev_chunk->next == NULL) {
             prev_chunk->next = new_chunk;
